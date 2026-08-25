@@ -20,7 +20,7 @@ dart run tool/check_source_size.dart
 
 ## Widget Preview（VS Code / Cursor）
 
-只给 **Screen 抽离出来的 View** 加 `@AppPreview(..., page: true)`（375×812，假数据）。**不要**标在 `*Screen` 上（会带入 Drift）。tile / header / 输入条等子组件和 `common_widgets` 不必加 Preview。不要给 `AppPreview` 加命名构造。
+只给 **Screen 抽离出来的 View** 加 `@AppPreview(...)`（375×812 由注解注入，假数据）。**不要**标在 `*Screen` 上（会带入 Drift）。tile / header / 输入条等子组件和 `common_widgets` 不必加 Preview。不要给 `AppPreview` 加命名构造或自定义字段（不要写 `page: true`）。
 
 1. 安装官方 **Dart** + **Flutter** 扩展，SDK ≥ 3.47。
 2. 打开本仓库后，点活动栏 **Flutter Widget Preview**（没有则命令面板运行 `Flutter: Enable Widget Previews`）。

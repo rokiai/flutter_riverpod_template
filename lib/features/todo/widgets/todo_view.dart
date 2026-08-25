@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod_template/core/theme/app_preview.dart';
 import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/features/todo/models/todo.dart';
@@ -183,8 +184,7 @@ final previewTodoItems = <Todo>[
   ),
 ];
 
-/// 整页「有数据」Preview。假数据，不走 Controller。
-@AppPreview(name: '有数据', group: 'todo', page: true)
+@AppPreview(name: '有数据', group: 'todo')
 Widget previewTodoViewLoaded() {
   const filter = TodoFilter.all;
   final state = TodoState(

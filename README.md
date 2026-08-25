@@ -169,10 +169,10 @@ class CounterScreen extends ConsumerWidget {
 }
 ```
 
-子组件不必加 Preview。整页 `@AppPreview(..., page: true)` 写在 `counter_view.dart`，**不要**标在 `CounterScreen` 上（Screen 一旦接 Repository/Drift，预览器会报 Invalid）。
+子组件不必加 Preview。整页 `@AppPreview(...)` 写在 `counter_view.dart`，**不要**标在 `CounterScreen` 上（Screen 一旦接 Repository/Drift，预览器会报 Invalid）。
 
 ```dart
-@AppPreview(name: '非零', group: 'counter', page: true)
+@AppPreview(name: '非零', group: 'counter')
 Widget previewCounterViewValue() {
   return CounterView(
     state: const CounterState(value: 7),
@@ -382,7 +382,7 @@ context.push('/counter', extra: someObject); // 用 const CounterRoute().push(co
 2. 活动栏打开 **Flutter Widget Preview**（没有则命令面板：`Flutter: Enable Widget Previews`）
 3. 打开 View 文件，打开底部 **Filter previews by selected file**
 
-只给 Screen 抽离的 View 加 `@AppPreview(..., page: true)`。不要给 `AppPreview` 加命名构造。子组件不必加 Preview。
+只给 Screen 抽离的 View 加 `@AppPreview(...)`。不要给 `AppPreview` 加命名构造或自定义字段。子组件不必加 Preview。
 
 细则：[`.agents/skills/flutter-add-widget-preview/SKILL.md`](.agents/skills/flutter-add-widget-preview/SKILL.md)
 

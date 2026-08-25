@@ -9,7 +9,7 @@ description: >-
 
 只给 **Screen 抽离出来的 View** 加 `@AppPreview`（见 `todo_view.dart` 的 `TodoView`）。`*Screen`、tile / header / 输入条等子组件、`common_widgets` **不要**加 Preview。
 
-本仓库用 `@AppPreview`（`lib/core/theme/app_preview.dart`），不要写裸 `@Preview`。不要给 `AppPreview` 加命名构造。
+本仓库用 `@AppPreview`（`lib/core/theme/app_preview.dart`），不要写裸 `@Preview`。不要给 `AppPreview` 加命名构造或自定义字段。
 
 ## VS Code / Cursor 怎么打开
 
@@ -21,12 +21,12 @@ description: >-
 
 ## 怎么加
 
-- [ ] Preview 写在 View **同文件**，`page: true`（375×812），假数据 / 空回调。
+- [ ] Preview 写在 View **同文件**（画布 375×812 由 `AppPreview` 注入），假数据 / 空回调。
 - [ ] `*Screen` 不预览（会带入 Controller / Drift）。
 - [ ] 子组件不预览，整页 View 里已经能看到它们。
 
 ```dart
-@AppPreview(name: '有数据', group: 'todo', page: true)
+@AppPreview(name: '有数据', group: 'todo')
 Widget previewTodoViewLoaded() {
   return TodoPageFrame(
     child: TodoView(
@@ -48,4 +48,4 @@ Widget previewTodoViewLoaded() {
 
 - 预览器是 Web：原生插件、`dart:io` / `dart:ffi` 会抛错。
 - 体积门禁不计 Widget Preview 代码。
-- 注解参数必须是 compile-time constant；主题 / wrapper 在 `transform()` 里注入。
+- 注解参数必须是 compile-time constant，且只能用 `Preview` 已有字段（`name` / `group` / `size` 等）。不要写 `page: true`，预览器会把它塞进 `textScaleFactor` 红屏。主题 / wrapper / 375×812 在 `transform()` 里注入。

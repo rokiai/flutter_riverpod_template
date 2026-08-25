@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/core/theme/app_theme.dart';
 import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
 
 /// 本仓库默认 Widget Preview：注入 [AppTheme]、中文 l10n 和 [ProviderScope]。
 ///
-/// 组件默认宽 375，高度由内容撑开。整页传 [page]：画布 375×812，且不加组件 Padding。
-/// Preview 只写在 Screen 抽离出的 View 上（`page: true`），用假数据；`*Screen` 和子组件不加。
+/// 画布固定 375×812，不加组件 Padding。Preview 只写在 Screen 抽离出的 View 上，用假数据；
+/// `*Screen` 和子组件不加。
 ///
-/// 主题和 wrapper 在 [transform] 里注入，不写进构造。预览器只对简单常量参数做常量求值，
-/// 自定义命名构造（例如 `AppPreview.page`）会被直接跳过。
+/// 主题和 wrapper 在 [transform] 里注入。预览器只对 [Preview] 已有的简单常量参数做常量求值；
+/// 不要加自定义字段或命名构造——例如 `page: true` 会被塞进 [Preview.textScaleFactor] 导致红屏。
 final class AppPreview extends Preview {
-  /// 移动端设计稿宽度。
-  static const Size mobileSize = Size.fromWidth(375);
-
   /// 整页预览画布：375 宽 × iPhone X 高度。
   static const Size pageSize = Size(375, 812);
 
@@ -25,19 +21,15 @@ final class AppPreview extends Preview {
     super.size,
     super.textScaleFactor,
     super.brightness,
-    this.page = false,
   });
-
-  /// 为 true 时用整页画布和 [wrapPage]。
-  final bool page;
 
   @override
   Preview transform() {
     final builder = super.transform().toBuilder()
       ..theme = AppPreview.themeBuilder
       ..localizations = AppPreview.localizationsBuilder
-      ..wrapper = page ? AppPreview.wrapPage : AppPreview.wrap;
-    builder.size ??= page ? AppPreview.pageSize : AppPreview.mobileSize;
+      ..wrapper = AppPreview.wrap;
+    builder.size ??= AppPreview.pageSize;
     return builder.build();
   }
 
@@ -53,16 +45,6 @@ final class AppPreview extends Preview {
 
   /// ConsumerWidget 需要 [ProviderScope]；预览器本身不提供。
   static Widget wrap(Widget child) {
-    return ProviderScope(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.medium),
-        child: child,
-      ),
-    );
-  }
-
-  /// 整页 Preview：只有 [ProviderScope]，不加组件 Padding。
-  static Widget wrapPage(Widget child) {
     return ProviderScope(child: child);
   }
 }

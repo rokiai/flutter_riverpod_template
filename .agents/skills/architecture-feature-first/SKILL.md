@@ -149,7 +149,7 @@ core → （无业务依赖）
 3. 写 Repository：注入 DataSource，做缓存与 `AppException` 归一化；在此文件声明 DataSource / Repository Provider。
 4. 写 `@freezed` Model 与 `*State`。
 5. 写 `@riverpod` Controller，只依赖 Repository。
-6. 写 Screen 与必要 widgets。从 Screen 抽离的 View 加 `@AppPreview(..., page: true)`；子组件不必加 Preview。
+6. 写 Screen 与必要 widgets。从 Screen 抽离的 View 加 `@AppPreview(...)`；子组件不必加 Preview。
 7. 在 `lib/routing/routes/<name>_routes.dart` 声明路由并挂到 `routes.dart`。
 8. 测试镜像到 `test/features/<name>/`，用 `test/helpers/test_container.dart` override。
 9. 自检：无空壳 DataSource、无 Feature 根 `utils/`、无跨 Feature import、无越级依赖；`dart run tool/check_source_size.dart` 通过。
@@ -168,4 +168,4 @@ core → （无业务依赖）
 - [ ] 没有重复实现 `core/` / `shared/` / `common_widgets/` / 已有依赖里已有的能力
 - [ ] `dart run tool/check_source_size.dart` 通过（有效代码行 ≤ 500）
 - [ ] 公开类/方法有中文 `///`；私有方法与关键业务分支也有意图注释，没有复述代码的废话
-- [ ] Screen 抽离的 View 有 `@AppPreview(page: true)`；不写在 `*Screen` 或子组件上
+- [ ] Screen 抽离的 View 有 `@AppPreview`；不写在 `*Screen` 或子组件上
