@@ -37,7 +37,7 @@ dart run tool/check_source_size.dart
 - Feature 禁止互相 import。跨 Feature 用 `shared/` 或 `shared/providers/` 事件；跳转用 `TypedGoRoute`。
 - Feature 只依赖 `core/platform/services/`，禁止 import `bridges/`。
 - 公开类/方法写中文 `///`；业务实现（私有方法与关键分支）同样注释意图。禁止复述代码。
-- 提交信息用中文，写清为什么改。禁止出现 Codex、Cursor、Claude Code，以及 `Co-Authored-By` / `Made-with` / `Generated with` 等工具签名。
+- git提交信息用中文，写清为什么改。禁止出现 Codex、Cursor、Claude Code，以及 `Co-Authored-By` / `Made-with` / `Generated with` 等工具签名。
 
 分层、命名白名单、新增 Feature 步骤与自检：`.agents/skills/architecture-feature-first/SKILL.md`。
 
