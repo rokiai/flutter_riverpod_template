@@ -13,7 +13,7 @@ description: >-
 
 本仓库固定使用 `Screen` + `Controller` + `Repository` + 按需 DataSource；DI 只用 Riverpod Provider。
 
-动手前先做 `AGENTS.md` 的前缀校验：先复用项目已有能力，再考虑热门库，最后才自研；单文件有效代码行 ≤ 500（生成物与 Widget Preview 不计），写完跑 `dart run tool/check_source_size.dart`；公开类型/方法写中文 `///`，业务实现（私有方法、缓存/错误/状态衔接）也写清意图。
+动手前先做 `AGENTS.md` 的前缀校验：先复用项目已有能力，再考虑热门库，最后才自研；手写源文件单文件有效代码行 ≤ 500（Dart、Swift、Kotlin 等原生代码同样适用，生成物与 Widget Preview 不计）。超过上限时，先分析文件职责、内聚性、依赖关系、测试边界和拆分后的可读性；只有存在清晰职责边界且拆分能降低复杂度时才按白名单拆分。若合理拆分会破坏内聚性，应先调整职责或设计并说明原因，不能把超限当作绕过门禁的理由；禁止机械拆分或制造空壳文件。写完跑 `dart run tool/check_source_size.dart`；Dart 与原生代码（包括 `ios/`、`android/` 中的平台实现和原生桥接）的公开类型/方法写中文文档注释，业务实现（私有方法、缓存/错误/状态衔接、原生桥接、线程/生命周期、权限、错误码映射、降级策略）也写清意图；Pigeon、Drift、插件等生成物不手写、不补注释。
 
 ## 何时使用
 
@@ -120,7 +120,7 @@ features/<feature>/
 
 禁止：`*_helper.dart`、`*_logic.dart`、`*_service.dart`、`*_manager.dart`、`*_selectors.dart`、Feature 根 `utils/`、`data/utils.dart` 平铺文件。
 
-文件 `snake_case`；类型 UpperCamelCase；Provider 以 `Provider` 结尾。手写源文件有效代码行 ≤ 500（不含 import/export/part、注释、空行、生成物、Widget Preview）。超了按白名单拆，禁止为了缩行改生成物或新建黑名单文件。写完跑 `dart run tool/check_source_size.dart`。
+文件 `snake_case`；类型 UpperCamelCase；Provider 以 `Provider` 结尾。手写源文件有效代码行 ≤ 500（不含 import/export/part、注释、空行、生成物、Widget Preview）。超过上限时，先分析职责边界、内聚性、依赖关系和测试边界；只有拆分能降低复杂度和耦合时才按白名单拆，禁止为了缩行机械拆分、改生成物或新建黑名单文件。若合理拆分会破坏内聚性，应先调整职责或设计并说明原因，不能绕过检查。写完跑 `dart run tool/check_source_size.dart`。
 
 ## 6. 跨 Feature 与依赖方向
 
@@ -167,5 +167,5 @@ core → （无业务依赖）
 - [ ] 异常已转为 `AppException`；重算法走 `compute` / Isolate
 - [ ] 没有重复实现 `core/` / `shared/` / `common_widgets/` / 已有依赖里已有的能力
 - [ ] `dart run tool/check_source_size.dart` 通过（有效代码行 ≤ 500）
-- [ ] 公开类/方法有中文 `///`；私有方法与关键业务分支也有意图注释，没有复述代码的废话
+- [ ] Dart 与原生代码的公开类/方法有中文文档注释；私有方法与关键业务分支（含原生桥接、线程/生命周期、权限、错误码映射、降级策略）也有意图注释，没有复述代码的废话；生成物不手写注释
 - [ ] Screen 抽离的 View 有 `@AppPreview`；不写在 `*Screen` 或子组件上
