@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/core/theme/app_preview.dart';
 import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/features/todo/models/todo_state.dart';
 import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
@@ -54,14 +53,4 @@ class TodoFilterBar extends ConsumerWidget {
       ],
     );
   }
-}
-
-@AppPreview(name: '筛选', group: 'todo')
-Widget previewTodoFilterBar() {
-  return TodoFilterBar(
-    activeFilter: TodoFilter.all,
-    completedCount: 2,
-    onFilterChanged: (_) {},
-    onClearCompleted: () {},
-  );
 }

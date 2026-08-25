@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/core/theme/app_preview.dart';
 import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
 
@@ -71,9 +70,4 @@ class _SummaryValue extends StatelessWidget {
       ],
     );
   }
-}
-
-@AppPreview(name: '标题统计', group: 'todo')
-Widget previewTodoHeader() {
-  return const TodoHeader(activeCount: 3, completedCount: 2);
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod_template/core/error/app_exception.dart';
 import 'package:flutter_riverpod_template/core/network/network_error_handler.dart';
-import 'package:flutter_riverpod_template/core/theme/app_preview.dart';
 import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
 
@@ -50,10 +49,4 @@ class AppErrorView extends StatelessWidget {
       ),
     );
   }
-}
-
-/// 离线错误态，供 Widget Preview 使用。
-@AppPreview(name: '离线错误', group: 'common')
-Widget previewAppErrorViewOffline() {
-  return AppErrorView(error: const NetworkOfflineException(), onRetry: () {});
 }

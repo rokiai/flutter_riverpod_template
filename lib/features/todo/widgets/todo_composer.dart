@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/core/theme/app_preview.dart';
 import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
 
@@ -77,9 +76,4 @@ class _TodoComposerState extends State<TodoComposer> {
       ],
     );
   }
-}
-
-@AppPreview(name: '输入条', group: 'todo')
-Widget previewTodoComposer() {
-  return TodoComposer(onSubmit: (_) async {});
 }

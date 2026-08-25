@@ -8,7 +8,7 @@ import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
 /// 本仓库默认 Widget Preview：注入 [AppTheme]、中文 l10n 和 [ProviderScope]。
 ///
 /// 组件默认宽 375，高度由内容撑开。整页传 [page]：画布 375×812，且不加组件 Padding。
-/// Preview 写在不依赖 Controller / Drift 的 widget 上，用假数据。
+/// Preview 只写在 Screen 抽离出的 View 上（`page: true`），用假数据；`*Screen` 和子组件不加。
 ///
 /// 主题和 wrapper 在 [transform] 里注入，不写进构造。预览器只对简单常量参数做常量求值，
 /// 自定义命名构造（例如 `AppPreview.page`）会被直接跳过。

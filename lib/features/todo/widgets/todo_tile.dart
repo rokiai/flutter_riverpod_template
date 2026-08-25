@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/core/theme/app_preview.dart';
 import 'package:flutter_riverpod_template/core/theme/app_spacing.dart';
 import 'package:flutter_riverpod_template/features/todo/models/todo.dart';
 import 'package:flutter_riverpod_template/l10n/app_localizations.dart';
@@ -71,32 +70,4 @@ class TodoTile extends StatelessWidget {
       ),
     );
   }
-}
-
-@AppPreview(name: '未完成', group: 'todo')
-Widget previewTodoTileActive() {
-  return TodoTile(
-    todo: Todo(
-      id: 'preview-1',
-      title: 'Review widget previews',
-      isCompleted: false,
-      createdAt: DateTime(2026, 8, 20),
-    ),
-    onToggle: () {},
-    onDelete: () {},
-  );
-}
-
-@AppPreview(name: '已完成', group: 'todo')
-Widget previewTodoTileCompleted() {
-  return TodoTile(
-    todo: Todo(
-      id: 'preview-2',
-      title: 'Connect the production API',
-      isCompleted: true,
-      createdAt: DateTime(2026, 8, 18),
-    ),
-    onToggle: () {},
-    onDelete: () {},
-  );
 }

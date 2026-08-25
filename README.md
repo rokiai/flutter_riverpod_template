@@ -169,7 +169,7 @@ class CounterScreen extends ConsumerWidget {
 }
 ```
 
-子组件加 `@AppPreview`；整页 Preview 写在 `counter_view.dart`，**不要**标在 `CounterScreen` 上（Screen 一旦日后接 Repository/Drift，预览器会报 Invalid）。
+子组件不必加 Preview。整页 `@AppPreview(..., page: true)` 写在 `counter_view.dart`，**不要**标在 `CounterScreen` 上（Screen 一旦接 Repository/Drift，预览器会报 Invalid）。
 
 ```dart
 @AppPreview(name: '非零', group: 'counter', page: true)
@@ -248,7 +248,7 @@ flutter test
 - [ ] 没有空壳 DataSource
 - [ ] 没有 Feature 根 `utils/`、`*_helper` / `*_service` / `*_manager`
 - [ ] Screen 不碰 IO
-- [ ] 组件有 `@AppPreview`，整页不写在 `*Screen`
+- [ ] Screen 抽离的 View 有 `@AppPreview`，不写在 `*Screen` 或子组件上
 - [ ] 单文件有效代码行 ≤ 500（Preview 代码不计）
 
 ---
@@ -380,9 +380,9 @@ context.push('/counter', extra: someObject); // 用 const CounterRoute().push(co
 
 1. 安装官方 Dart + Flutter 扩展，SDK ≥ 3.47
 2. 活动栏打开 **Flutter Widget Preview**（没有则命令面板：`Flutter: Enable Widget Previews`）
-3. 打开组件文件，打开底部 **Filter previews by selected file**
+3. 打开 View 文件，打开底部 **Filter previews by selected file**
 
-组件用 `@AppPreview`（注入主题、中文 l10n、`ProviderScope`）。整页加 `page: true`（375×812）。不要给 `AppPreview` 写命名构造，预览器会扫不到。
+只给 Screen 抽离的 View 加 `@AppPreview(..., page: true)`。不要给 `AppPreview` 加命名构造。子组件不必加 Preview。
 
 细则：[`.agents/skills/flutter-add-widget-preview/SKILL.md`](.agents/skills/flutter-add-widget-preview/SKILL.md)
 
@@ -417,7 +417,7 @@ flutter test
 | 没有接口也写 RemoteDataSource | 不建该文件 |
 | Provider 写在 DataSource 文件 | 写在 `*_repository.dart` |
 | `stats` import `counter` | `shared/` 契约或 `TypedGoRoute` |
-| 在 `*Screen` 上加 Preview | Preview 写在纯 UI widget + 假数据 |
+| 给 tile / header 也加 Preview | 只给 Screen 抽离的 View 加 |
 | 为过 500 行删注释、建 `*_helper` | 按白名单拆文件；Preview 代码本就不计 |
 
 完整检查清单见 architecture skill 第 9 节。
