@@ -406,7 +406,7 @@ flutter analyze --fatal-warnings --fatal-infos
 flutter test
 ```
 
-提交说明用中文，写清为什么改；不要带 Codex / Cursor / Claude Code 等工具签名。
+提交说明遵循 [Agents.md](Agents.md) 的 Git 提交规范：`type(scope): 中文说明`（如 `feat` / `fix` / `docs`）；不要带工具签名。
 
 ## 常见错误
 

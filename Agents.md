@@ -37,9 +37,34 @@ dart run tool/check_source_size.dart
 - Feature 禁止互相 import。跨 Feature 用 `shared/` 或 `shared/providers/` 事件；跳转用 `TypedGoRoute`。
 - Feature 只依赖 `core/platform/services/`，禁止 import `bridges/`。
 - 公开类/方法写中文 `///`；业务实现（私有方法与关键分支）同样注释意图。禁止复述代码。
-- git提交信息用中文，写清为什么改。禁止出现 Codex、Cursor、Claude Code，以及 `Co-Authored-By` / `Made-with` / `Generated with` 等工具签名。
 
 分层、命名白名单、新增 Feature 步骤与自检：`.agents/skills/architecture-feature-first/SKILL.md`。
+
+## Git 提交
+
+格式：`type(scope): 中文说明`。scope 可省略。说明写**为什么**，不要堆文件名。一条提交只对应一类改动。
+
+| type | 何时用 |
+| --- | --- |
+| `feat` | 新功能（新增 Feature、用户可见能力）。不要写成 `feature` |
+| `fix` | 修 bug |
+| `docs` | 文档（README / Agents.md / skill） |
+| `refactor` | 重构，行为不变 |
+| `perf` | 性能 |
+| `test` | 只改测试 |
+| `style` | 格式化，无逻辑变化 |
+| `ci` | GitHub Actions 等 |
+| `chore` | 依赖、脚本、生成配置等杂项 |
+
+scope 用 Feature 名（`todo`、`counter`）或分层（`core`、`routing`、`shared`、`l10n`）。破坏性改动用 `feat(todo)!:` 或正文 `BREAKING CHANGE:`。
+
+```text
+feat(counter): 新增独立计数页，演示无 IO 的 Feature 骨架
+fix(todo): 远端失败时回退本地缓存，避免空白页
+docs: 补充计数器教程与跨 Feature 共享约定
+```
+
+禁止出现 Codex、Cursor、Claude Code，以及 `Co-Authored-By` / `Made-with` / `Generated with` 等工具签名。
 
 ## 按任务读 Skill
 
