@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "flutter_riverpod_template",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "flutter_riverpod_template (profile)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "flutter_riverpod_template (release)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "flutterMode": "release"
+        }
+    ]
+}

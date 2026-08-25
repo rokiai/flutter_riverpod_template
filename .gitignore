@@ -1,0 +1,36 @@
+# See https://www.dartlang.org/guides/libraries/private-files
+
+.dart_tool/
+.packages
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.DS_Store
+.idea/
+*.iml
+
+# Generated files
+doc/api/
+*.dart.js
+*.info.json
+*.js
+*.js_
+*.js.deps
+*.js.map
+!web/drift_worker.js
+*.g.dart
+*.freezed.dart
+*.gr.dart
+
+# Coverage and output
+coverage/
+outputs/
+
+# Widget Previewer cache
+.widget_preview/
+
+# Environment files
+.env
+.env.*
+!.env.example

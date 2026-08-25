@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Riverpod Template",
+  "navigationError": "Navigation error",
+  "backToStart": "Back to start",
+  "tryAgain": "Try again",
+  "networkOffline": "The network is unavailable.",
+  "networkServer": "The server is temporarily unavailable.",
+  "networkRequest": "The request could not be completed.",
+  "todoTitle": "Daily list",
+  "todoSubtitle": "Small steps, clearly in view.",
+  "newTodoHint": "What needs your attention?",
+  "addTodo": "Add task",
+  "all": "All",
+  "active": "Active",
+  "completed": "Done",
+  "activeTasks": "to do",
+  "completedTasks": "done",
+  "clearCompleted": "Clear completed tasks",
+  "noTasks": "Nothing here yet",
+  "noTasksHint": "Add one small task and make it visible.",
+  "cachedData": "Showing cached data",
+  "syncedData": "Synced just now",
+  "deleteTodo": "Delete {title}",
+  "@deleteTodo": {
+    "description": "Accessibility label for deleting a todo.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "markTodoActive": "Mark {title} as active",
+  "@markTodoActive": {
+    "description": "Accessibility label for activating a completed todo.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "markTodoCompleted": "Mark {title} as completed",
+  "@markTodoCompleted": {
+    "description": "Accessibility label for completing an active todo.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
+}

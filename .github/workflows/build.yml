@@ -1,0 +1,44 @@
+name: Flutter
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter SDK
+        uses: flutter-actions/setup-flutter@v3
+        with:
+          channel: stable
+          version: 3.47.1
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate localization
+        run: flutter gen-l10n
+
+      - name: Generate Pigeon bindings
+        run: dart run pigeon --input pigeons/app_platform.dart
+
+      - name: Generate Dart code
+        run: dart run build_runner build
+
+      - name: Check handwritten source size
+        run: dart run tool/check_source_size.dart
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test tool
+
+      - name: Analyze project source
+        run: flutter analyze --fatal-warnings --fatal-infos
+
+      - name: Run tests
+        run: flutter test

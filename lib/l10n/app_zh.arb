@@ -1,0 +1,51 @@
+{
+  "@@locale": "zh",
+  "appTitle": "Flutter Riverpod 脚手架",
+  "navigationError": "导航出错",
+  "backToStart": "返回首页",
+  "tryAgain": "重试",
+  "networkOffline": "网络不可用。",
+  "networkServer": "服务器暂时不可用。",
+  "networkRequest": "请求无法完成。",
+  "todoTitle": "每日清单",
+  "todoSubtitle": "把小步行动清楚地放在眼前。",
+  "newTodoHint": "有什么需要你关注？",
+  "addTodo": "添加任务",
+  "all": "全部",
+  "active": "进行中",
+  "completed": "已完成",
+  "activeTasks": "待办",
+  "completedTasks": "完成",
+  "clearCompleted": "清除已完成任务",
+  "noTasks": "这里还没有任务",
+  "noTasksHint": "添加一个小任务，让它清晰可见。",
+  "cachedData": "当前显示的是缓存数据",
+  "syncedData": "刚刚同步",
+  "deleteTodo": "删除 {title}",
+  "@deleteTodo": {
+    "description": "删除任务的无障碍标签。",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "markTodoActive": "将 {title} 标记为进行中",
+  "@markTodoActive": {
+    "description": "将已完成任务恢复为进行中的无障碍标签。",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "markTodoCompleted": "将 {title} 标记为已完成",
+  "@markTodoCompleted": {
+    "description": "完成任务的无障碍标签。",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
+}
