@@ -8,7 +8,7 @@ SDK：Flutter 3.47.0+ / Dart 3.13.0+（已验证 3.47.1 / 3.13.1）。
 
 1. **复用顺序**（先检索，再写代码）
    1. 项目已有：`core/`、`shared/`、`common_widgets/`、`pubspec.yaml` 已有依赖、现有 Feature 里可复用的 widgets / Service。
-   2. 项目没有：再选 pub.dev 上下载量高、维护活跃的库，并按本仓库分层包一层（插件进 `core/platform/services/`，UI 进 `common_widgets/` 或 Feature `widgets/`）。
+   2. 项目没有：再选 pub.dev 上下载量高、维护活跃的库，并按本仓库分层包一层（插件进 `core/platform/services/<module>/`，UI 进 `common_widgets/` 或 Feature `widgets/`）。
    3. 仍没有：才自研。禁止重复实现项目里已经有的能力。
 2. **体积与拆分**：手写源文件单文件有效代码行 ≤ 500（Dart、Swift、Kotlin 等原生代码同样适用；不含 `import` / `export` / `part` / `package`、注释、空行）。生成物与 Widget Preview（`@AppPreview`、`previewXxx`、假数据、`app_preview.dart`）不计。超过上限时，先分析文件职责、内聚性、依赖关系、测试边界和拆分后的可读性；只有存在清晰职责边界且拆分能降低复杂度时，才按白名单拆分。若合理拆分会破坏内聚性，应先调整职责或设计并说明原因，不能把超限当作绕过门禁的理由。禁止为了过门禁机械拆分、制造只转发的空壳文件、删注释或新建 `*_manager` / `*_helper` / `*_logic`。最终仍须通过：
 
@@ -35,11 +35,11 @@ dart run tool/check_source_size.dart
 - Feature 根目录禁止 `utils/`。Screen 只 `watch` / `read.notifier`；IO 与算法走 Repository。
 - DataSource **按需创建**，禁止空壳。Provider 写在 `*_repository.dart`，不写在 DataSource 文件。
 - Feature 禁止互相 import。跨 Feature 用 `shared/` 或 `shared/providers/` 事件；跳转用 `TypedGoRoute`。
-- Feature 只依赖 `core/platform/services/`，禁止 import `bridges/`。
+- Feature 只依赖 `core/platform/services/<module>/`，禁止 import `bridges/`。Service 按模块分子目录，禁止在 `services/` 根平铺。
 - Dart 与原生代码（Swift、Kotlin、Java、Objective-C 等）的公开类/方法都写中文文档注释；业务实现（私有方法与关键分支）同样注释意图，原生桥接、线程/生命周期、权限、错误码映射和降级策略不得省略。Pigeon、插件等生成物不手写、不补注释。禁止复述代码。
 - 提交：`type(scope): 中文说明`（新功能用 `feat`，不要写成 `feature`）。禁止 Codex / Cursor / Claude Code 及 `Co-Authored-By` 等工具签名。
 
-分层、命名白名单、新增 Feature 步骤与自检：`.agents/skills/architecture-feature-first/SKILL.md`。
+仓库目录、分层、命名白名单、新增 Feature 步骤与自检：`.agents/skills/architecture-feature-first/SKILL.md`。
 
 ## 按任务读 Skill
 

@@ -39,6 +39,7 @@ VS Code / Cursor 用 `.vscode/launch.json` 里的 `flutter_riverpod_template` �
 lib/
 ├── main.dart / app.dart
 ├── core/                 # error, network, platform, storage, theme, utils
+│   └── platform/services/<module>/  # 原生 Service，禁止根目录平铺
 ├── shared/               # 至少 2 个 Feature 才放的业务契约
 ├── common_widgets/       # 无业务的通用 UI
 ├── routing/              # GoRouter；业务路由在 routes/<feature>_routes.dart
@@ -63,7 +64,7 @@ features/<feature>/
 └── widgets/
 ```
 
-Feature 根目录禁止 `utils/`。禁止 `Page` / `View` / `ViewModel` / `Cubit` / Feature 内 `*_service.dart`。
+Feature 根目录禁止 `utils/`。禁止 `Page` / `View` / `ViewModel` / `Cubit` / Feature 内 `*_service.dart`。完整仓库树见 architecture skill 第 1 节。
 
 ## 分层一句话
 
@@ -414,10 +415,11 @@ flutter test
 | --- | --- |
 | 新建 `CounterPage` / `CounterViewModel` | `CounterScreen` + `CounterController` |
 | Feature 里写 `counter_service.dart` | 无 IO 就只留 Controller；有 IO 走 Repository |
+| 原生 Service 平铺在 `services/` 根 | 按模块建 `services/library/`、`album/` 等 |
 | 没有接口也写 RemoteDataSource | 不建该文件 |
 | Provider 写在 DataSource 文件 | 写在 `*_repository.dart` |
 | `stats` import `counter` | `shared/` 契约或 `TypedGoRoute` |
 | 给 tile / header 也加 Preview | 只给 Screen 抽离的 View 加 |
 | 为过 500 行删注释、建 `*_helper` | 按白名单拆文件；Preview 代码本就不计 |
 
-完整检查清单见 architecture skill 第 9 节。
+完整检查清单见 architecture skill 第 10 节。

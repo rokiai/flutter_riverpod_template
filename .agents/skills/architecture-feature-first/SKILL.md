@@ -3,13 +3,13 @@ name: architecture-feature-first
 description: >-
   Use when creating a Flutter feature, designing Feature-First folders, adding
   Screen/Controller/Repository/DataSource, deciding which layer owns logic,
-  wiring Riverpod DI, sharing state across features, or connecting native
-  capabilities in this repository.
+  wiring Riverpod DI, sharing state across features, connecting native
+  capabilities, or placing files in this repository's directory layout.
 ---
 
 # Feature-First 架构
 
-新增或重构 Feature 时按本文件执行。仓库总览、命令和门禁见根目录 `AGENTS.md`。
+新增或重构 Feature 时按本文件执行。命令和门禁见根目录 `AGENTS.md`。仓库目录见第 1 节。
 
 本仓库固定使用 `Screen` + `Controller` + `Repository` + 按需 DataSource；DI 只用 Riverpod Provider。
 
@@ -17,13 +17,53 @@ description: >-
 
 ## 何时使用
 
+- 判断文件该放 `core/` / `shared/` / `features/` / `platform/services/<module>/`
 - 设计或新增 `features/<name>/`
 - 决定逻辑落在 Screen、Controller、Repository 还是 DataSource
 - 添加远程/本地数据、缓存回退、算法加工
 - 跨 Feature 共享状态或跳转
 - 接入插件或自研 Pigeon 原生能力
 
-## 1. 分层
+## 1. 仓库目录
+
+只有一个 Dart 入口 `lib/main.dart`。不要再加 `main_dev.dart`、`--flavor`、`.env.*`。没有用到的目录不要预建空壳。
+
+```text
+.
+├── lib/
+│   ├── main.dart                      # 唯一 Dart 入口
+│   ├── app.dart                       # MaterialApp、主题、路由
+│   ├── core/                          # 无业务依赖
+│   │   ├── error/                     # AppException
+│   │   ├── network/                   # Dio、拦截器、错误归一
+│   │   ├── platform/
+│   │   │   ├── bridges/               # Pigeon 薄封装；Feature 禁止 import
+│   │   │   └── services/<module>/     # 原生出口；禁止在 services/ 根平铺
+│   │   ├── storage/                   # Drift AppDatabase
+│   │   ├── theme/                     # 色板、间距、主题、AppPreview
+│   │   └── utils/                     # 无业务决策的纯工具（如 logger）
+│   ├── shared/                        # ≥2 个 Feature 才建文件；当前可空
+│   │   └── providers/                 # 跨 Feature 事件
+│   ├── common_widgets/                # 无业务通用 UI
+│   ├── routing/
+│   │   ├── app_router.dart
+│   │   ├── routes.dart                # 汇总各 Feature 的 $appRoutes
+│   │   ├── routes/<feature>_routes.dart
+│   │   └── transitions/
+│   ├── features/<name>/               # 业务，见第 3 节
+│   └── l10n/                          # arb；生成的 app_localizations* 禁止手改
+├── pigeons/                           # Pigeon schema
+├── test/
+│   ├── helpers/                       # test_container 等
+│   └── features/<name>/               # 镜像 Feature 目录
+├── tool/                              # 门禁脚本（check_source_size）
+├── ios/ android/                      # 原生实现；桥接写中文注释
+└── .agents/skills/                    # Agent 规范
+```
+
+新业务只进 `lib/features/<name>/`。原生能力进 `core/platform/services/<module>/`（模块划分见第 8 节）。跨 Feature 契约进 `shared/`。禁止 Feature 互相 import，禁止 Feature import `bridges/`。
+
+## 2. 分层
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -51,7 +91,7 @@ description: >-
 - 不预建空壳：没有网络就不要 `*_remote_data_source.dart`；没有本地持久化就不要 `*_local_data_source.dart`。
 - 禁止 `Page`、`View`、`ViewModel`、`Cubit`、`ui/`、`domain/`、`get_it`。
 
-## 2. Feature 目录（按需创建）
+## 3. Feature 目录（按需创建）
 
 ```text
 features/<feature>/
@@ -77,7 +117,7 @@ features/<feature>/
 
 测试镜像到 `test/features/<feature>/`。
 
-## 3. 各层职责
+## 4. 各层职责
 
 ### Screen
 
@@ -106,13 +146,13 @@ features/<feature>/
 - 只描述数据形状。允许基于自身字段的纯 Getter。
 - 禁止 Riverpod、Drift、Pigeon、`BuildContext`、`intl`、Flutter UI、`DateTime.now()`、IO。
 
-## 4. Presentation 逻辑归位
+## 5. Presentation 逻辑归位
 
 1. 弹窗 → `widgets/<feature>_dialog.dart` 或 `*_bottom_sheet.dart`，类上提供 `show`。禁止 `*_dialog_helper.dart`。
 2. 派生状态 → State 的 Getter 或 `extension XxxStateX on XxxState`。禁止 `*_selectors.dart`。
 3. 展示计算 → Widget 私有方法/Getter。
 
-## 5. 命名白名单 / 黑名单
+## 6. 命名白名单 / 黑名单
 
 `models/` 允许：`<resource>.dart`、`<feature>_state.dart`、必要时 `<feature>_models.dart`（或沿用已有聚合文件如 `cleanup.dart`）。模型默认 `@freezed`。
 
@@ -122,7 +162,7 @@ features/<feature>/
 
 文件 `snake_case`；类型 UpperCamelCase；Provider 以 `Provider` 结尾。手写源文件有效代码行 ≤ 500（不含 import/export/part、注释、空行、生成物、Widget Preview）。超过上限时，先分析职责边界、内聚性、依赖关系和测试边界；只有拆分能降低复杂度和耦合时才按白名单拆，禁止为了缩行机械拆分、改生成物或新建黑名单文件。若合理拆分会破坏内聚性，应先调整职责或设计并说明原因，不能绕过检查。写完跑 `dart run tool/check_source_size.dart`。
 
-## 6. 跨 Feature 与依赖方向
+## 7. 跨 Feature 与依赖方向
 
 ```text
 routing → features/<feature> → shared / core / common_widgets
@@ -135,13 +175,27 @@ core → （无业务依赖）
 - 跳转用 `routing/` 的 `TypedGoRoute`。只传 ID 或 URL-safe 字符串，不传不可恢复的 `$extra`。
 - `common_widgets` 只依赖 `core/theme` 和无业务 UI。
 
-## 7. 缓存与原生
+## 8. 缓存与原生
 
 缓存链路：`appDatabaseProvider` → LocalDataSource → Repository → Controller。测试 override `AppDatabase(NativeDatabase.memory())`。表结构在 `core/storage/app_database.dart` 升 `schemaVersion` 并写 `onUpgrade`。
 
-原生：Feature 只依赖 `core/platform/services/`。插件能力包一层 Service；自研能力才加 `bridges/` + `pigeons/`。改 schema 后重生成 Dart/Swift/Kotlin，禁止手改 `.g.dart`。重活离开主线程；错误码非本地化，Dart 转 `AppException`，UI 走 l10n。
+原生：Feature 只依赖 `core/platform/services/<module>/`，禁止 import `bridges/`。插件能力包一层 Service；自研能力才加 `bridges/` + `pigeons/`。改 schema 后重生成 Dart/Swift/Kotlin，禁止手改 `.g.dart`。重活离开主线程；错误码非本地化，Dart 转 `AppException`，UI 走 l10n。
 
-## 8. 工作流：新增 Feature
+`services/` **根目录禁止平铺** `*_service.dart`。按原生能力模块建子目录；新能力加模块，不要往根上堆。没有该能力就不要建空目录。模块之间禁止 `export *` 桶文件。
+
+```text
+lib/core/platform/services/
+  album/                 # 权限、列表、缩略图、删除、文件夹、Smart Album
+  analysis/              # 枢纽扫描、相似、SHA、低质量、磁盘缓存
+  inspect/               # 原生 inspect / 建议分类
+  compress/              # 压缩
+  export/                # 导出
+  library/               # 选视频、Live、platform、network 等小入口
+```
+
+本仓库示例：`library/platform_service.dart`。相册 / 分析等能力出现时再建对应子目录，不要把文件丢回 `services/` 根。
+
+## 9. 工作流：新增 Feature
 
 0. **前缀校验**：检索 `core/`、`shared/`、`common_widgets/`、`pubspec.yaml` 和现有 Feature。已有能力直接用；没有再加热门库并按分层包装；仍没有才自研。
 1. 建 `features/<name>/`，**只建用得到的文件**。
@@ -152,17 +206,17 @@ core → （无业务依赖）
 6. 写 Screen 与必要 widgets。从 Screen 抽离的 View 加 `@AppPreview(...)`；子组件不必加 Preview。
 7. 在 `lib/routing/routes/<name>_routes.dart` 声明路由并挂到 `routes.dart`。
 8. 测试镜像到 `test/features/<name>/`，用 `test/helpers/test_container.dart` override。
-9. 自检：无空壳 DataSource、无 Feature 根 `utils/`、无跨 Feature import、无越级依赖；`dart run tool/check_source_size.dart` 通过。
+9. 自检：无空壳 DataSource、无 Feature 根 `utils/`、无跨 Feature import、无越级依赖、原生 Service 不在 `services/` 根平铺；`dart run tool/check_source_size.dart` 通过。
 
 参考现成示例：`lib/features/todo/`。
 
-## 9. 完成后检查
+## 10. 完成后检查
 
 - [ ] 没有空壳 `*_remote_data_source.dart` / `*_local_data_source.dart`
 - [ ] 没有 Feature 根 `utils/`、`*_helper`、`*_manager`、`*_service`、`*_logic`
 - [ ] DataSource 文件无 Provider；Provider 在 Repository
 - [ ] Screen/Controller 不直接访问 DataSource 或 `data/utils`
-- [ ] Feature 之间无 import；原生不 import `bridges/`
+- [ ] Feature 之间无 import；原生不 import `bridges/`；Service 在 `services/<module>/`，不在根目录平铺
 - [ ] `@riverpod` + 不可变 `@freezed` 状态
 - [ ] 异常已转为 `AppException`；重算法走 `compute` / Isolate
 - [ ] 没有重复实现 `core/` / `shared/` / `common_widgets/` / 已有依赖里已有的能力
