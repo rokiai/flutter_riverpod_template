@@ -238,6 +238,7 @@ const CounterRoute().push(context);
 ```bash
 dart run build_runner build
 dart run tool/check_source_size.dart
+dart analyze --fatal-infos
 flutter analyze --fatal-warnings --fatal-infos
 flutter test
 ```
@@ -403,9 +404,12 @@ dart run pigeon --input pigeons/app_platform.dart
 dart run build_runner build
 dart run tool/check_source_size.dart
 dart format --output=none --set-exit-if-changed lib test tool
+dart analyze --fatal-infos
 flutter analyze --fatal-warnings --fatal-infos
 flutter test
 ```
+
+`riverpod_lint` 是 `analysis_server_plugin`。当前 `flutter analyze` 会在插件出结果前结束（[flutter#187999](https://github.com/flutter/flutter/issues/187999)），所以门禁暂时两条都跑：`dart analyze` 拦 Riverpod 插件，`flutter analyze` 拦 Flutter 本体。该 issue 进稳定版后收成一条即可，优先留 `flutter analyze --fatal-warnings --fatal-infos`。
 
 提交：`type(scope): 中文说明`，新功能用 `feat`；不要带工具签名。详见 [Agents.md](Agents.md)。
 
@@ -421,5 +425,6 @@ flutter test
 | `stats` import `counter` | `shared/` 契约或 `TypedGoRoute` |
 | 给 tile / header 也加 Preview | 只给 Screen 抽离的 View 加 |
 | 为过 500 行删注释、建 `*_helper` | 按白名单拆文件；Preview 代码本就不计 |
+| 只跑 `flutter analyze` | 再跑 `dart analyze --fatal-infos`（过渡；[flutter#187999](https://github.com/flutter/flutter/issues/187999) 修好后可只留前者） |
 
 完整检查清单见 architecture skill 第 10 节。

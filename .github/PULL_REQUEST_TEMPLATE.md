@@ -7,7 +7,9 @@
 - [ ] `flutter gen-l10n`
 - [ ] `dart run pigeon --input pigeons/app_platform.dart`
 - [ ] `dart run build_runner build`
-- [ ] `dart format --output=none --set-exit-if-changed lib test`
+- [ ] `dart run tool/check_source_size.dart`
+- [ ] `dart format --output=none --set-exit-if-changed lib test tool`
+- [ ] `dart analyze --fatal-infos`
 - [ ] `flutter analyze --fatal-warnings --fatal-infos`
 - [ ] `flutter test`
 

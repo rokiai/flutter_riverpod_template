@@ -2,11 +2,9 @@
 # check for errors, warnings, and lints.
 #
 # The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
+# IDEs (https://dart.dev/tools#ides-and-editors).
+# `riverpod_lint` is an analysis_server_plugin: run `dart analyze --fatal-infos`.
+# `flutter analyze` does not load this plugin.
 include: package:flutter_lints/flutter.yaml
 plugins:
   riverpod_lint: 3.1.8

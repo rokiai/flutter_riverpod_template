@@ -52,12 +52,15 @@ dart run tool/check_source_size.dart
 
 生成物（`.g.dart`、`.freezed.dart`、Drift、Pigeon）禁止手改。改 Pigeon schema 后重生成 Dart / Swift / Kotlin。
 
+`riverpod_lint` 只随 `dart analyze` 生效；`flutter analyze` 不加载 `analysis_server_plugin`，新增 Riverpod 代码只跑后者等于没校验。
+
 ```bash
 flutter gen-l10n
 dart run pigeon --input pigeons/app_platform.dart
 dart run build_runner build
 dart run tool/check_source_size.dart
 dart format --output=none --set-exit-if-changed lib test tool
+dart analyze --fatal-infos
 flutter analyze --fatal-warnings --fatal-infos
 flutter test
 ```

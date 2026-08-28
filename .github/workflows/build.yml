@@ -37,7 +37,10 @@ jobs:
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed lib test tool
 
-      - name: Analyze project source
+      - name: Analyze Dart (includes riverpod_lint)
+        run: dart analyze --fatal-infos
+
+      - name: Analyze Flutter
         run: flutter analyze --fatal-warnings --fatal-infos
 
       - name: Run tests

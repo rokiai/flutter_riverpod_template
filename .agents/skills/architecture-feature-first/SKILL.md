@@ -223,3 +223,4 @@ lib/core/platform/services/
 - [ ] `dart run tool/check_source_size.dart` 通过（有效代码行 ≤ 500）
 - [ ] Dart 与原生代码的公开类/方法有中文文档注释；私有方法与关键业务分支（含原生桥接、线程/生命周期、权限、错误码映射、降级策略）也有意图注释，没有复述代码的废话；生成物不手写注释
 - [ ] Screen 抽离的 View 有 `@AppPreview`；不写在 `*Screen` 或子组件上
+- [ ] `dart analyze --fatal-infos` 通过（含 `riverpod_lint`；`flutter analyze` 不跑该插件）
