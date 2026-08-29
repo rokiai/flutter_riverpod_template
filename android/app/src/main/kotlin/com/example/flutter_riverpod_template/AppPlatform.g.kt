@@ -2,7 +2,7 @@
 // See also: https://pub.dev/packages/pigeon
 @file:Suppress("UNCHECKED_CAST", "ArrayInDataClass")
 
-package com.example.flutter_rivperpod_template
+package com.example.flutter_riverpod_template
 
 import android.util.Log
 import io.flutter.plugin.common.BasicMessageChannel
@@ -56,8 +56,13 @@ private open class AppPlatformPigeonCodec : StandardMessageCodec() {
   }
 }
 
-/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+/**
+ * 自研原生能力的 HostApi。改完必须重生成 Dart / Swift / Kotlin，禁止手改生成物。
+ *
+ * Generated interface from Pigeon that represents a handler of messages from Flutter.
+ */
 interface AppPlatformHostApi {
+  /** 读取系统版本字符串。 */
   fun getPlatformVersion(): String?
 
   companion object {

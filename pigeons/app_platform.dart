@@ -3,9 +3,9 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/core/platform/bridges/app_platform.g.dart',
-    kotlinOut: 'android/app/src/main/kotlin/com/example/flutter_rivperpod_template/AppPlatform.g.kt',
+    kotlinOut: 'android/app/src/main/kotlin/com/example/flutter_riverpod_template/AppPlatform.g.kt',
     kotlinOptions: KotlinOptions(
-      package: 'com.example.flutter_rivperpod_template',
+      package: 'com.example.flutter_riverpod_template',
     ),
     swiftOut: 'ios/Runner/AppPlatform.g.swift',
     dartOptions: DartOptions(),

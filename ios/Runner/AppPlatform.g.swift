@@ -95,8 +95,11 @@ class AppPlatformPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
   static let shared = AppPlatformPigeonCodec(readerWriter: AppPlatformPigeonCodecReaderWriter())
 }
 
+/// 自研原生能力的 HostApi。改完必须重生成 Dart / Swift / Kotlin，禁止手改生成物。
+///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol AppPlatformHostApi {
+  /// 读取系统版本字符串。
   func getPlatformVersion() throws -> String?
 }
 
@@ -106,6 +109,7 @@ class AppPlatformHostApiSetup {
   /// Sets up an instance of `AppPlatformHostApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: AppPlatformHostApi?, messageChannelSuffix: String = "") {
     let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
+    /// 读取系统版本字符串。
     let getPlatformVersionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.flutter_riverpod_template.AppPlatformHostApi.getPlatformVersion\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       getPlatformVersionChannel.setMessageHandler { _, reply in
